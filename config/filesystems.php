@@ -2,6 +2,8 @@
 
 return [
 
+    'repairpro_releases_prefix' => env('REPAIRPRO_RELEASES_PREFIX', 'windows'),
+
     /*
     |--------------------------------------------------------------------------
     | Default Filesystem Disk
@@ -57,6 +59,18 @@ return [
             'endpoint' => env('AWS_ENDPOINT'),
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
             'throw' => false,
+            'report' => false,
+        ],
+
+        'repairpro_releases' => [
+            'driver' => 's3',
+            'key' => env('AWS_ACCESS_KEY_ID'),
+            'secret' => env('AWS_SECRET_ACCESS_KEY'),
+            'region' => env('AWS_DEFAULT_REGION', 'auto'),
+            'bucket' => env('REPAIRPRO_RELEASES_BUCKET'),
+            'endpoint' => env('REPAIRPRO_RELEASES_ENDPOINT', env('AWS_ENDPOINT')),
+            'use_path_style_endpoint' => env('REPAIRPRO_RELEASES_USE_PATH_STYLE_ENDPOINT', false),
+            'throw' => true,
             'report' => false,
         ],
 
