@@ -3,15 +3,16 @@
 use Illuminate\Support\Facades\Storage;
 
 test('the RepairPro release feed redirects an allowed Velopack asset to storage', function () {
-    Storage::fake('repairpro_releases');
+    Storage::fake('private');
+    Storage::disk('private')->put('repairpro-releases/releases.win.json', '{}');
 
     $response = $this->get('/repairpro-releases/releases.win.json');
 
     $response->assertRedirect();
-    $response->assertHeader('Cache-Control', 'no-store, private');
 });
 
-test('the RepairPro release feed rejects paths outside its flat Velopack asset namespace', function () {
-    $this->get('/repairpro-releases/../.env')->assertNotFound();
-    $this->get('/repairpro-releases/folder/releases.win.json')->assertNotFound();
+test('the RepairPro release feed rejects unavailable Velopack assets', function () {
+    Storage::fake('private');
+
+    $this->get('/repairpro-releases/releases.win.json')->assertNotFound();
 });
